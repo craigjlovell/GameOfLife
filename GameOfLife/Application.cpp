@@ -159,32 +159,22 @@ int Application::CalculateTileState(int index, int* grid)
 		numAliveNeibours++;
 	}
 
-	if (numAliveNeibours >= 3 && index == 0)
-	{
-		isAlive = true;
-	}
-	else if (index == 0 && numAliveNeibours < 2)
+	if (numAliveNeibours < 2)
 	{
 		isAlive = false;
 	}
-	else if (index == 1 && numAliveNeibours <= 2)
-	{
-		isAlive = false;
-	}
-	else if (index == 1 && numAliveNeibours == 2)
+	else if (numAliveNeibours == 2)
 	{
 		isAlive = true;
 	}
-	else if (index == 1 && numAliveNeibours <= 3)
+	else if (numAliveNeibours == 3)
 	{
 		isAlive = true;
 	}
-	else if (index == 1 && numAliveNeibours == 3)
+	else if (numAliveNeibours > 3)
 	{
 		isAlive = false;
-	}
-
-
+	}	
 		
 	
 
