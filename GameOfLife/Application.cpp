@@ -5,6 +5,8 @@
 #define RAYGUI_SUPPORT_ICONS
 #include "raygui.h"
 
+#include <iostream>
+
 Application::Application()
 {
 
@@ -113,10 +115,78 @@ int Application::CalculateTileState(int index, int* grid)
 
 	// Calculate the row/col based on index
 	// remember how to convert an index value to row/col index and visa versa?
-	int col = 0;
-	int row = 0;
+	int col = index / m_cols;
+	int row = index % m_cols;
 
 	bool isAlive = grid[index] != 0;
+
+	bool isLeftNeibourAlive = false;
+	bool isRightNeibourAlive = false;
+	bool isTopNeibourAlive = false;
+	bool isDownNeibourAlive = false;
+	
+	if( col - 1 >= 0 )
+		isLeftNeibourAlive = grid[row * m_cols + col - 1];
+	
+	if( row - 1 >= 0 )
+		isTopNeibourAlive = grid[row - 1 * m_cols + col];
+
+
+	if( col + 1 < m_cols)
+		isRightNeibourAlive = grid[row * m_cols + col + 1];
+
+	if( row + 1 < m_rows)
+		isDownNeibourAlive = grid[row + 1 * m_cols + col];
+	
+	
+
+	int numAliveNeibours = 0; // ???
+
+	if (isLeftNeibourAlive == true)
+	{
+		numAliveNeibours++;
+	}
+	if (isRightNeibourAlive == true)
+	{
+		numAliveNeibours++;
+	}
+	if (isTopNeibourAlive == true)
+	{
+		numAliveNeibours++;
+	}
+	if (isDownNeibourAlive == true)
+	{
+		numAliveNeibours++;
+	}
+
+	if (numAliveNeibours >= 3 && index == 0)
+	{
+		isAlive = true;
+	}
+	else if (index == 0 && numAliveNeibours < 2)
+	{
+		isAlive = false;
+	}
+	else if (index == 1 && numAliveNeibours <= 2)
+	{
+		isAlive = false;
+	}
+	else if (index == 1 && numAliveNeibours == 2)
+	{
+		isAlive = true;
+	}
+	else if (index == 1 && numAliveNeibours <= 3)
+	{
+		isAlive = true;
+	}
+	else if (index == 1 && numAliveNeibours == 3)
+	{
+		isAlive = false;
+	}
+
+
+		
+	
 
 	// Task:
 	// implement the rules for Conway’s game of life, the method should
