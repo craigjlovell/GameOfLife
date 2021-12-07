@@ -115,55 +115,70 @@ int Application::CalculateTileState(int index, int* grid)
 
 	// Calculate the row/col based on index
 	// remember how to convert an index value to row/col index and visa versa?
-	int col = index / m_cols;
-	int row = index % m_cols;
+	int col = index % m_cols;
+	int row = index / m_cols;
 
 	bool isAlive = grid[index] != 0;
+	int numAliveNeibours = 0;
 
 	bool isLeftNeibourAlive = false;
 	bool isRightNeibourAlive = false;
 	bool isTopNeibourAlive = false;
 	bool isDownNeibourAlive = false;
+	bool one = false;
+	bool two = false;
+	bool three = false;
+	bool four = false;
 	
 	if( col - 1 >= 0 )
-		isLeftNeibourAlive = grid[row * m_cols + col - 1];
+		isLeftNeibourAlive = grid[row * m_cols + (col - 1)];
 	
 	if( row - 1 >= 0 )
-		isTopNeibourAlive = grid[row - 1 * m_cols + col];
+		isTopNeibourAlive = grid[(row - 1) * m_cols + col];
 
 
 	if( col + 1 < m_cols)
-		isRightNeibourAlive = grid[row * m_cols + col + 1];
+		isRightNeibourAlive = grid[row * m_cols + (col + 1)];
 
 	if( row + 1 < m_rows)
-		isDownNeibourAlive = grid[row + 1 * m_cols + col];
-	
+		isDownNeibourAlive = grid[(row + 1) * m_cols + col];
+
+	if (row + 1 < m_rows)
+		one = grid[(row + 1) * m_cols + (col+ 1)];
+
+	if (row + 1 < m_rows)
+		two = grid[(row - 1) * m_cols + (col - 1)];
+
+	if (row + 1 < m_rows)
+		three = grid[(row - 1) * m_cols + (col + 1)];
+
+	if (row + 1 < m_rows)
+		four = grid[(row + 1) * m_cols + (col - 1)];
 	
 
-	int numAliveNeibours = 0; // ???
+	
 
-	if (isLeftNeibourAlive == true)
-	{
-		numAliveNeibours++;
-	}
-	if (isRightNeibourAlive == true)
-	{
-		numAliveNeibours++;
-	}
-	if (isTopNeibourAlive == true)
-	{
-		numAliveNeibours++;
-	}
-	if (isDownNeibourAlive == true)
-	{
-		numAliveNeibours++;
-	}
+	if (isLeftNeibourAlive == true)numAliveNeibours++;
+
+	if (isRightNeibourAlive == true)numAliveNeibours++;
+
+	if (isTopNeibourAlive == true)numAliveNeibours++;
+
+	if (isDownNeibourAlive == true)numAliveNeibours++;
+
+	if (one == true)numAliveNeibours++;
+
+	if (two == true)numAliveNeibours++;
+
+	if (three == true)numAliveNeibours++;
+
+	if (four == true)numAliveNeibours++;
 
 	if (numAliveNeibours < 2)
 	{
 		isAlive = false;
 	}
-	else if (numAliveNeibours == 2)
+	else if (isAlive && (numAliveNeibours == 2 || numAliveNeibours == 3))
 	{
 		isAlive = true;
 	}
@@ -174,7 +189,8 @@ int Application::CalculateTileState(int index, int* grid)
 	else if (numAliveNeibours > 3)
 	{
 		isAlive = false;
-	}	
+	}
+
 		
 	
 
